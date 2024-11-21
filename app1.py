@@ -3,7 +3,7 @@
 # from dash import Dash, html, dcc, callback, Output, Input
 
 # # Load the data
-# df = pd.read_csv(r'C:\Users\DELL\Desktop\Dashboard_overseas_education\Data\Students_data.csv')
+# df = pd.read_csv(r'Dashboard_overseas_education\Data\Students_data.csv')
 
 # # Rename columns for consistency
 # df.rename(columns={ 
