@@ -166,7 +166,7 @@ app.layout = html.Div([
                  style={'width': '48%', 'display': 'inline-block', 'margin-right': '2%'}),
         html.Div([
             dcc.Graph(id='market_share', figure=bullet_chart),
-            dcc.Interval(id='interval', interval=1000, n_intervals=10)
+            dcc.Interval(id='interval', interval=200, n_intervals=10)
         ], style={'width': '48%', 'display': 'inline-block'})
     ], style={'display': 'flex', 'justify-content': 'space-between', 'margin-bottom': '20px'}),
 
