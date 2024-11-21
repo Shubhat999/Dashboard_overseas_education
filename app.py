@@ -3,6 +3,7 @@ from dash import dcc, html, Input, Output
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
+import os
 
 # Sample Data (Replace with your full dataset)
 df = pd.read_excel(r'Indian_students_stats_country-wise.xlsx')
@@ -276,4 +277,7 @@ def update_diversity_index_chart(selected_country):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    # Get the PORT from the environment variables (default to 8050 if not set)
+    port = int(os.environ.get("PORT", 5000))
+    # Run the server on the correct port and bind to 0.0.0.0
+    app.run_server(debug=True, host="0.0.0.0", port=port)
