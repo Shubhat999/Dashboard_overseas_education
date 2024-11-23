@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 import numpy as np
 from scipy.interpolate import make_interp_spline
+import os
 
 # Sample Data (Replace with your full dataset)
 df = pd.read_excel(r'Indian_students_stats_country-wise.xlsx')
