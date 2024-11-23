@@ -469,10 +469,11 @@
 
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
 from dash import Dash, html, dcc, callback, Output, Input
 import numpy as np
-import os
 
 # Load the data
 df = pd.read_csv(r'Students_data.csv')
@@ -508,37 +509,155 @@ df['Graduate_to_Undergraduate_Conversion_Rate'] = (
 # Initialize the Dash app
 app = Dash(__name__)
 
-# Layout of the app
-app.layout = html.Div([
-    html.H1("Interactive Enrollment Dashboard", style={"textAlign": "center", "color": "#004A7C", "font-size": "32px"}),  # Updated title color and size
 
-    # Filter Dropdown
-    html.Div([
-        html.Label("Select Institution Type:", style={"font-size": "18px", "font-weight": "bold", "color": "#333"}),
-        dcc.Dropdown(
-            id='institution-type-filter',
-            options=[{'label': i, 'value': i} for i in df['College/Institution_Type'].unique()],
-            value=df['College/Institution_Type'].unique()[0],
-            clearable=False,
-            style={'font-size': '16px', 'padding': '10px', 'width': '50%', 'margin': 'auto', 'backgroundColor': '#f0f0f0'}
-        )
-    ], style={"width": "50%", "margin": "auto"}),
 
-    # KPI Graphs - Arrange them side by side
-    html.Div([
-        html.Div([dcc.Graph(id='enrollment-distribution')], style={'width': '48%', 'display': 'inline-block'}),
-        html.Div([dcc.Graph(id='yearly-trends')], style={'width': '48%', 'display': 'inline-block'})
-    ], style={'display': 'flex', 'justify-content': 'space-between', 'padding': '20px'}),
+# Define the layout
+app.layout = html.Div(
+    [
+        # Title
+        html.H1(
+            "Interactive Enrollment Dashboard",
+            style={
+                "textAlign": "center",
+                "color": "#00BFFF",  # Neon blue color
+                "fontSize": "36px",
+                "marginBottom": "20px",
+                "textShadow": "0 0 8px #00BFFF, 0 0 16px #00BFFF",  # Glow effect
+            },
+        ),
 
-    html.Div([
-        html.Div([dcc.Graph(id='full-part-ratio')], style={'width': '48%', 'display': 'inline-block'}),
-        html.Div([dcc.Graph(id='program-preference')], style={'width': '48%', 'display': 'inline-block'})
-    ], style={'display': 'flex', 'justify-content': 'space-between', 'padding': '20px'}),
+        # Dropdown Filter
+        html.Div(
+            [
+                html.Label(
+                    "Select Institution Type:",
+                    style={
+                        "fontSize": "18px",
+                        "fontWeight": "bold",
+                        "color": "#00BFFF",  # Neon blue for labels
+                        "marginBottom": "10px",
+                        "textShadow": "0 0 8px #00BFFF",  # Glow effect
+                    },
+                ),
+                dcc.Dropdown(
+                    id="institution-type-filter",
+                    options=[
+                        {"label": i, "value": i}
+                        for i in df["College/Institution_Type"].unique()
+                    ],
+                    value=df["College/Institution_Type"].unique()[0],
+                    clearable=False,
+                    style={
+                        "fontSize": "16px",
+                        "padding": "10px",
+                        "width": "100%",
+                        "backgroundColor": "#000000",  # Black background for dropdown
+                        "color": "black",  # Neon blue text
+                        "border": "1px solid #00BFFF",  # Blue border
+                        "boxShadow": "0 0 8px #00BFFF",  # Glow around dropdown
+                    },
+                ),
+            ],
+            style={"width": "50%", "margin": "0 auto", "marginBottom": "30px"},
+        ),
 
-    html.Div([
-        dcc.Graph(id='conversion-rate')  # New KPI graph  
-    ], style={'backgroundColor': '#f7f7f7', 'padding': '20px'})
-])
+        # KPI Graphs - Row 1
+        html.Div(
+            [
+                html.Div(
+                    dcc.Graph(
+                        id="enrollment-distribution",
+                        config={"displayModeBar": False},
+                        style={"backgroundColor": "rgba(0, 0, 0, 0)"},
+                    ),
+                    style={
+                        "width": "48%",
+                        "display": "inline-block",
+                        "border": "1px solid #00BFFF",  # Blue border
+                        "boxShadow": "0 0 8px #00BFFF",  # Glow around graph container
+                        "borderRadius": "10px",
+                        "padding": "10px",
+                    },
+                ),
+                html.Div(
+                    dcc.Graph(
+                        id="yearly-trends",
+                        config={"displayModeBar": False},
+                        style={"backgroundColor": "rgba(0, 0, 0, 0)"},
+                    ),
+                    style={
+                        "width": "48%",
+                        "display": "inline-block",
+                        "border": "1px solid #00BFFF",  # Blue border
+                        "boxShadow": "0 0 8px #00BFFF",  # Glow around graph container
+                        "borderRadius": "10px",
+                        "padding": "10px",
+                    },
+                ),
+            ],
+            style={"display": "flex", "justifyContent": "space-between", "padding": "20px"},
+        ),
+
+        # KPI Graphs - Row 2
+        html.Div(
+            [
+                html.Div(
+                    dcc.Graph(
+                        id="full-part-ratio",
+                        config={"displayModeBar": False},
+                        style={"backgroundColor": "rgba(0, 0, 0, 0)"},
+                    ),
+                    style={
+                        "width": "48%",
+                        "display": "inline-block",
+                        "border": "1px solid #00BFFF",  # Blue border
+                        "boxShadow": "0 0 8px #00BFFF",  # Glow around graph container
+                        "borderRadius": "10px",
+                        "padding": "10px",
+                    },
+                ),
+                html.Div(
+                    dcc.Graph(
+                        id="program-preference",
+                        config={"displayModeBar": False},
+                        style={"backgroundColor": "rgba(0, 0, 0, 0)"},
+                    ),
+                    style={
+                        "width": "48%",
+                        "display": "inline-block",
+                        "border": "1px solid #00BFFF",  # Blue border
+                        "boxShadow": "0 0 8px #00BFFF",  # Glow around graph container
+                        "borderRadius": "10px",
+                        "padding": "10px",
+                    },
+                ),
+            ],
+            style={"display": "flex", "justifyContent": "space-between", "padding": "20px"},
+        ),
+
+        # Conversion Rate Graph
+        html.Div(
+            dcc.Graph(
+                id="conversion-rate",
+                config={"displayModeBar": False},
+                style={"backgroundColor": "rgba(0, 0, 0, 0)"},
+            ),
+            style={
+                "backgroundColor": "rgba(0, 0, 0, 0)",  # Transparent container
+                "padding": "20px",
+                "margin": "20px auto",
+                "border": "1px solid #00BFFF",  # Blue border
+                "boxShadow": "0 0 8px #00BFFF",  # Glow effect
+                "borderRadius": "10px",
+            },
+        ),
+    ],
+    style={
+        "backgroundColor": "#000428",  # Gradient-like dark blue
+        "backgroundImage": "linear-gradient(45deg, #000428, #004e92)",  # Shining blue gradient
+        "padding": "20px",
+    },
+)
 
 # Callbacks for interactivity
 @app.callback(
@@ -573,19 +692,27 @@ def update_graphs(selected_institution_type):
     total_students = grouped_df['Total_Students'].sum()
     grouped_df['Percentage'] = (grouped_df['Total_Students'] / total_students) * 100
 
-    # Sunburst chart for enrollment distribution
     sunburst_fig = px.sunburst(
-        grouped_df,
-        path=['College/Institution_Type'],
-        values='Percentage',
-        title="Enrollment Distribution by Institution Type",
-        color='Percentage',  # Adding color to represent percentage
-        color_continuous_scale='Blues'  # Color scale
-    )
+    grouped_df,
+    path=['College/Institution_Type'],
+    values='Percentage',
+    title="Enrollment Distribution by Institution Type",
+    color='Percentage',  # Adding color to represent percentage
+    color_continuous_scale='Blues'  # Color scale
+)
+
+    # Update layout for a gray-black background
     sunburst_fig.update_layout(
-        plot_bgcolor='white',  # White background for clarity
-        title_font=dict(size=20, color='navy'),
-        margin=dict(t=50, b=50, l=50, r=50)
+        plot_bgcolor='rgba(0, 0, 0, 0)',  # Transparent plot area
+        paper_bgcolor='black',  # Entire figure's background set to black
+        title_font=dict(size=20, color='white'),  # White title font
+        font=dict(color='white'),  # White font for all text
+        margin=dict(t=50, b=50, l=50, r=50),  # Margins around the chart
+    )
+
+    # Add color to sunburst sections and make it pop against the dark background
+    sunburst_fig.update_traces(
+        marker=dict(line=dict(color='gray', width=0.5))  # Light gray borders for clarity
     )
 
     # KPI 2: Animated Enrollment Trends by Year (Dot Plot with Animation)
@@ -641,21 +768,32 @@ def update_graphs(selected_institution_type):
     # Update Layout
     animated_line_fig.update_layout(
         title="Year-over-Year Enrollment Growth (Animated Smooth Line)",
-        xaxis=dict(title="Enrollment Year"),
-        yaxis=dict(title="YoY Growth (%)"),
+        xaxis=dict(
+            title="Enrollment Year",
+            showgrid=False  # Remove grid lines for x-axis
+        ),
+        yaxis=dict(
+            title="YoY Growth (%)",
+            showgrid=False  # Remove grid lines for y-axis
+        ),
         updatemenus=[dict(
             type="buttons",
             showactive=False,
-            buttons=[dict(label="Play",
-                        method="animate",
-                        args=[None, dict(frame=dict(duration=500, redraw=True), fromcurrent=True)])]
+            buttons=[dict(
+                label="Play",
+                method="animate",
+                args=[None, dict(frame=dict(duration=500, redraw=True), fromcurrent=True)]
+            )]
         )],
-        plot_bgcolor='white',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 191, 255, 0.5)',
+
         title_font=dict(size=18, color='navy'),
         margin=dict(t=30, b=30, l=30, r=30),
         xaxis_title_font=dict(size=18),
         yaxis_title_font=dict(size=18),
     )
+
 
 
 
@@ -677,13 +815,18 @@ def update_graphs(selected_institution_type):
         color_continuous_scale=px.colors.sequential.Viridis  # Color scale for better clarity
     )
     bubble_chart_fig.update_layout(
-        plot_bgcolor='white',
-        title_font=dict(size=20, color='navy'),
-        margin=dict(t=50, b=50, l=50, r=50),
-        xaxis_title="Year",
-        yaxis_title="Full-Time to Part-Time Ratio",
-        showlegend=False
+    plot_bgcolor='rgba(173, 216, 230, 1)',  # Light blue color for the plot area
+    paper_bgcolor='rgba(173, 216, 230, 0.9)',  # Slightly transparent light blue for the entire figure
+    title_font=dict(size=20, color='navy'),
+    margin=dict(t=50, b=50, l=50, r=50),
+    xaxis_title="Year",
+    yaxis_title="Full-Time to Part-Time Ratio",
+    showlegend=False,
+    xaxis=dict(showgrid=False),  # Remove x-axis grid lines
+    yaxis=dict(showgrid=False)   # Remove y-axis grid lines
     )
+
+
 
     # KPI 4: Program Preference Rate (Undergraduate vs. Graduate) - Radar Chart
     preference_df = filtered_df.groupby('Year').sum().reset_index()
@@ -708,7 +851,9 @@ def update_graphs(selected_institution_type):
     # Enhance chart appearance: make it more colorful and visually appealing
     radar_fig.update_traces(
         line=dict(width=4),  # Increase line width
-        marker=dict(size=8)  # Larger markers for emphasis
+        marker=dict(size=8),  # Larger markers for emphasis
+        fill='toself',  # Fill the area under the lines to make the chart more colorful
+        opacity=0.3  # Adjust opacity of the filled area for a softer effect
     )
 
     # Customize layout for better presentation
@@ -720,12 +865,16 @@ def update_graphs(selected_institution_type):
                 tickfont=dict(size=14, color='black')  # Ticks font size and color
             ),
             angularaxis=dict(
-                tickfont=dict(size=14, color='black')  # Angular ticks font size and color
+                tickfont=dict(size=14, color='white')  # Angular ticks font size and color
             )
         ),
-        title_font=dict(size=20, color='navy'),
-        plot_bgcolor='white',
-        margin=dict(t=50, b=50, l=50, r=50)
+        title_font=dict(size=20, color='white'),
+        plot_bgcolor='rgba(0,0,0,0)',  # Transparent plot background
+        paper_bgcolor='rgba(0,0,0,0)',  # Transparent paper background
+        margin=dict(t=50, b=50, l=50, r=50),
+        legend=dict(
+            font=dict(color='white')  # Set legend font color to white
+        )
     )
 
     # KPI 5 : Add Graduate to Undergraduate Conversion Rate Graph (Animated Heatmap or 3D Surface)
@@ -752,11 +901,15 @@ def update_graphs(selected_institution_type):
             zaxis=dict(title='Density'),
         ),
         margin=dict(t=60, b=60, l=60, r=60),
+        paper_bgcolor='rgba(240, 248, 255, 0.8)',  # Light blue with transparency (lighter background)
+        plot_bgcolor='rgba(240, 248, 255, 0.8)',   # Light blue plot background
     )
+
 
     
 
     return sunburst_fig, animated_line_fig, bubble_chart_fig, radar_fig , conversion_fig_3d
+
 
 
 if __name__ == '__main__':
