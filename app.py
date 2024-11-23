@@ -8,7 +8,7 @@ import numpy as np
 from scipy.interpolate import make_interp_spline
 
 # Sample Data (Replace with your full dataset)
-df = pd.read_excel(r'Data\Indian_students_stats_country-wise.xlsx')
+df = pd.read_excel(r'Indian_students_stats_country-wise.xlsx')
 df = df.iloc[:, :7]
 df = pd.melt(df, id_vars=['Sl. No.', 'Country'], var_name='Year', value_name='Value')
 df['Year'] = pd.to_datetime(df["Year"], format="%Y")
