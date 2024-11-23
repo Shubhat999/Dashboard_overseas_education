@@ -1,4 +1,6 @@
 pandas
 dash
 ipykernel
-openpyxl
+scipy
+dash-bootstrap-components
+
