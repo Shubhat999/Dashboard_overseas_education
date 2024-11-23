@@ -3,4 +3,4 @@ dash
 ipykernel
 scipy
 dash-bootstrap-components
-
+openpyxl
